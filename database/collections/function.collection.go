@@ -71,14 +71,14 @@ func (collection Collection) CreateByLambda(lambda interface{}) (*mongo.InsertOn
 	return cursor, nil
 }
 
-// func (collection Collection) UpdateByLambda(condition interface{}, lambda interface{}) (*mongo.UpdateResult, error) {
-// 	cursor, err := collection.UpdateOne(context.TODO(), condition, bson.D{{"$set", lambda}})
-// 	if err != nil {
-// 		return nil, err
+func (collection Collection) UpdateByLambda(condition interface{}, lambda interface{}) (*mongo.UpdateResult, error) {
+	cursor, err := collection.UpdateOne(context.TODO(), condition, bson.D{{"$set", lambda}})
+	if err != nil {
+		return nil, err
 
-// 	}
-// 	return cursor, nil
-// }
+	}
+	return cursor, nil
+}
 
 // func (collection Collection) UpdateMany(condition interface{}, lambda interface{}) (*mongo.UpdateResult, error) {
 // 	cursor, err := collection.UpdateMany(context.TODO(), condition, bson.D{{"$set", lambda}})

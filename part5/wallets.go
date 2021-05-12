@@ -7,12 +7,22 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	collection "mycoin/database/collections"
 	"os"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+var walletCollection = collection.Collection{collection.GetCollection("wallets")}
 
 // Wallets stores a collection of wallets
 type Wallets struct {
 	Wallets map[string]*Wallet
+}
+type WalletsMongo struct {
+	Id      primitive.ObjectID `bson:"_id"`
+	Wallets interface{}        `bson:"wallets"`
 }
 
 // NewWallets creates Wallets and fills it from a file if it exists
@@ -77,6 +87,24 @@ func (ws *Wallets) LoadFromFile() error {
 
 // SaveToFile saves wallets to a file
 func (ws Wallets) SaveToFile() {
+
+	lastWallet := walletCollection.GetLastRecord()
+	if len(lastWallet) != 0 {
+		var wl WalletsMongo
+		err := bson.Unmarshal(lastWallet[0], &wl)
+		if err != nil {
+			log.Fatal("detail:", err)
+		}
+		var condition = bson.D{
+			{"_id", wl.Id},
+		}
+		fmt.Println("condition", condition)
+
+		walletCollection.UpdateByLambda(condition, ws)
+	} else {
+		walletCollection.CreateByLambda(ws)
+	}
+
 	var content bytes.Buffer
 
 	gob.Register(elliptic.P256())

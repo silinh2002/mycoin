@@ -17,8 +17,8 @@ const addressChecksumLen = 4
 
 // Wallet stores private and public keys
 type Wallet struct {
-	PrivateKey ecdsa.PrivateKey
-	PublicKey  []byte
+	PrivateKey ecdsa.PrivateKey `bson:"PrivateKey"`
+	PublicKey  []byte           `bson:"PublicKey"`
 }
 
 // NewWallet creates and returns a Wallet

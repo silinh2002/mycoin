@@ -13,10 +13,9 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-const collectionName = "blocks"
 const genesisCoinbaseData = "The Times 05/May/2021 Chancellor on brink of second bailout for banks"
 
-var blockCollection = collection.Collection{collection.GetCollection(collectionName)}
+var blockCollection = collection.Collection{collection.GetCollection("blocks")}
 
 // Blockchain keeps a sequence of Blocks
 type Blockchain struct {
