@@ -1,7 +1,7 @@
 package main
 
 import (
-	blockchain "mycoin/part5"
+	blockchain "mycoin/part6_2"
 )
 
 func main() {
