@@ -41,22 +41,17 @@ func (cli *CLI) printChain() {
 // 	}
 // }
 
-// type TransactionRes struct {
-// 	Input struct {
-// 		TXID      string
-// 		Out       string
-// 		Signature string
-// 		PubKey    string
-// 	}
-// 	Output struct {
-// 		Value  int
-// 		Script string
-// 	}
-// }
+type TransactionRes struct {
+	TXID      interface{}
+	From      interface{}
+	To        interface{}
+	Timestamp int64
+	Value     int
+}
 
 func PrintChain() interface{} {
 	var blocksResponse []Block
-
+	var transRes []TransactionRes
 	bc := NewBlockchain()
 	defer bc.db.Close()
 
@@ -71,6 +66,22 @@ func PrintChain() interface{} {
 		fmt.Printf("PoW: %s\n\n", strconv.FormatBool(pow.Validate()))
 		for _, tx := range block.Transactions {
 			fmt.Println(tx)
+
+			for _, txout := range tx.Vout {
+				fmt.Println(txout)
+
+				for _, txin := range tx.Vin {
+					fmt.Println(txin)
+					var item TransactionRes
+					item.TXID = tx.ID
+					item.From = txin.Signature
+					item.To = txout.PubKeyHash
+					item.Timestamp = block.Timestamp
+					item.Value = txout.Value
+					transRes = append(transRes, item)
+				}
+
+			}
 		}
 		fmt.Printf("\n\n")
 
@@ -79,6 +90,6 @@ func PrintChain() interface{} {
 			break
 		}
 	}
-	return blocksResponse
+	return transRes
 
 }
