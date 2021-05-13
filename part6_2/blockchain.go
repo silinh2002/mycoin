@@ -80,7 +80,7 @@ func CreateBlockchain(address string) *Blockchain {
 func NewBlockchain() *Blockchain {
 	if dbExists() == false {
 		fmt.Println("No existing blockchain found. Create one first.")
-		os.Exit(1)
+		return nil
 	}
 
 	var tip []byte
