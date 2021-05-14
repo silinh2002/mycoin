@@ -1,10 +1,10 @@
 package main
 
 import (
-	blockchain "mycoin/part6_2"
+	blockchain "mycoin/part5"
 )
 
-func maintest() {
+func main() {
 
 	// Bc.AddBlock("Send 1 BTC to Ivan")
 	// bc.AddBlock("Send 2 more BTC to Ivan")
