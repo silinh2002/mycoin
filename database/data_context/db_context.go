@@ -17,6 +17,8 @@ type singleton struct {
 var instance *singleton
 var mu sync.Mutex
 
+const DBContext = "mongodb+srv://blockchain:admin@cluster0.srmrg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+
 func GetInstance() *singleton {
 	if instance == nil {
 		mu.Lock()
@@ -32,7 +34,7 @@ func GetInstance() *singleton {
 func (instance *singleton) connectDB() {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(DBContext))
 	if err != nil {
 		*instance = singleton{nil, err}
 	}
