@@ -4,6 +4,7 @@ import (
 	"fmt"
 	blockchain "mycoin/part6_2"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
@@ -40,8 +41,16 @@ func main() {
 	e.POST("/mining", mining)
 	e.POST("/send", sendCoin)
 
+	var port string
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	if os.Getenv("PORT") != "" {
+		port = ":" + os.Getenv("PORT")
+
+	} else {
+		port = ":" + "1327"
+	}
+
+	e.Logger.Fatal(e.Start(port))
 }
 
 // Handler
