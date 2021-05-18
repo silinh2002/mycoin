@@ -35,7 +35,7 @@ func main() {
 	// 	return c.NoContent(http.StatusOK)
 	// })
 	e.GET("/", hello)
-	e.GET("/createwallet", createWallet)
+	e.POST("/createwallet", createWallet)
 	e.GET("/getbalance/:pubkey", getBalance)
 	e.GET("/histories-all", historiesAll)
 	e.POST("/mining", mining)
