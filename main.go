@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	blockchain "mycoin/part5"
+	blockchain "mycoin/blockchain"
 	"net/http"
 	"os"
 
