@@ -13,3 +13,12 @@ func (cli *CLI) createBlockchain(address string) {
 	// bc.db.Close()
 	fmt.Println("Done!")
 }
+
+func InitBlockchain(address string) string {
+	if !ValidateAddress(address) {
+		return "ERROR: Address is not valid"
+	}
+	CreateBlockchain(address)
+
+	return "Done!"
+}

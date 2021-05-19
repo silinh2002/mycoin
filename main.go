@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	blockchain "mycoin/part6_2"
+	blockchain "mycoin/part5"
 	"net/http"
 	"os"
 
@@ -22,18 +22,6 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
-	// Routes
-	// e.GET("/", func(c echo.Context) error {
-	// 	sess, _ := session.Get("session", c)
-	// 	sess.Options = &sessions.Options{
-	// 		Path:     "/",
-	// 		MaxAge:   86400 * 7,
-	// 		HttpOnly: true,
-	// 	}
-	// 	sess.Values["foo"] = "bar"
-	// 	sess.Save(c.Request(), c.Response())
-	// 	return c.NoContent(http.StatusOK)
-	// })
 	e.GET("/", hello)
 	e.POST("/createwallet", createWallet)
 	e.GET("/getbalance/:pubkey", getBalance)

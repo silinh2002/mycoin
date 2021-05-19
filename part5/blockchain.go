@@ -216,7 +216,8 @@ func (i *BlockchainIterator) Next() *Block {
 	//GET USER FROM DB
 	bl := blockCollection.FindByLambda(Conditions)
 	if len(bl) == 0 {
-		log.Fatal("block is not existed: ", Conditions.CurrentHash)
+		fmt.Println("block is not existed: ", Conditions.CurrentHash)
+		return nil
 	}
 
 	err := bson.Unmarshal(bl[0], &block)

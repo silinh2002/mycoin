@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-const subsidy = 10
+const subsidy = 1000
 
 // Transaction represents a Bitcoin transaction
 type Transaction struct {
@@ -185,20 +185,23 @@ func NewCoinbaseTX(to, data string) *Transaction {
 }
 
 // NewUTXOTransaction creates a new transaction
-func NewUTXOTransaction(from, to string, amount int, bc *Blockchain) *Transaction {
+func NewUTXOTransaction(from, to string, amount int, bc *Blockchain) (*Transaction, string) {
 	var inputs []TXInput
 	var outputs []TXOutput
 
 	wallets, err := NewWallets()
 	if err != nil {
 		log.Panic(err)
+		return nil, "error not found"
+
 	}
 	wallet := wallets.GetWallet(from)
 	pubKeyHash := HashPubKey(wallet.PublicKey)
 	acc, validOutputs := bc.FindSpendableOutputs(pubKeyHash, amount)
 
 	if acc < amount {
-		log.Panic("ERROR: Not enough funds")
+		// log.Panic("ERROR: Not enough funds")
+		return nil, "ERROR: Not enough funds"
 	}
 
 	// Build a list of inputs
@@ -224,5 +227,5 @@ func NewUTXOTransaction(from, to string, amount int, bc *Blockchain) *Transactio
 	tx.ID = tx.Hash()
 	bc.SignTransaction(&tx, wallet.PrivateKey)
 
-	return &tx
+	return &tx, ""
 }
